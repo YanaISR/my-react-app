@@ -1,17 +1,28 @@
-import './App.css';
-import Users from './components/Users';
-import Posts from './components/Posts';
-import Albums from './components/Albums';
+import "./App.css";
+import { useState, createContext} from "react";
+import Tasks from "./components/Tasks";
+
+export const Context = createContext(null);
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [name, setName] = useState("");
+
+  const handleAddNewTask = () => {
+    const items = [...tasks, name];
+    setTasks(items);
+  };
 
   return (
-    <div className='list'>
-      <Users />
-      <Posts />
-      <Albums />
-    </div>
-    
+    <Context.Provider value={tasks}>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      ></input>
+      <button onClick={handleAddNewTask}>Create new task</button>
+      <Tasks />
+    </Context.Provider>
   );
 }
 
