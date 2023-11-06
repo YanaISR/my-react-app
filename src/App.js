@@ -1,26 +1,27 @@
-import { Route, Routes, NavLink } from "react-router-dom";
 import "./App.css";
-import Posts from "./components/Posts";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Header from "./components/Header";
-import PageNotFound from "./components/PageNotFound";
-import Post from "./components/Post";
-import Footer from "./components/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { increment, decrement } from "./redux/counterSlice";
+import { store } from "./redux/store";
 
 
-function App() {
+function App() { 
+  
+  const dispatch = useDispatch();
+  const counter = useSelector(store => store.counter)
+
+  const handleIncrement = () => {
+    dispatch(increment());
+  };
+
+  const handleDecrement = () => {
+    dispatch(decrement());
+  };
+
   return (
-    <div className="app">
-      <Header />
-      <Routes>
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/posts/:id" element={<Post />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-      <Footer />
+    <div>
+      <h1>Counter: {counter.value}</h1>
+      <button onClick={handleIncrement}>Increment</button>
+      <button onClick={handleDecrement}>Decrement</button>
     </div>
   );
 }
